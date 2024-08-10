@@ -12,6 +12,3 @@
 // @require     https://unpkg.com/showdown/dist/showdown.min.js
 // @grant       GM_addStyle
 // ==/UserScript==
-
-
-const MARKDOWN_EDITOR_URL = 'http://127.0.0.1:9481'

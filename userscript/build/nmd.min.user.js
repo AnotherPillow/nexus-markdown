@@ -12,13 +12,13 @@
 // @require     https://unpkg.com/showdown/dist/showdown.min.js
 // @grant       GM_addStyle
 // ==/UserScript==
-let MARKDOWN_EDITOR_URL="http://127.0.0.1:9481",MARKDOWN_SVG='<svg fill="#000000" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px"><title>Markdown icon</title><path d="M22.269 19.385H1.731a1.73 1.73 0 0 1-1.73-1.73V6.345a1.73 1.73 0 0 1 1.73-1.73h20.538a1.73 1.73 0 0 1 1.73 1.73v11.308a1.73 1.73 0 0 1-1.73 1.731zm-16.5-3.462v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.078h-2.308l-2.307 2.885-2.308-2.885H3.461v7.847zM21.231 12h-2.308V8.077h-2.307V12h-2.308l3.461 4.039z"></path></svg>',EDITOR_DIALOG_INNER=`
+// https://www.svgrepo.com/svg/306375/markdown
+let MARKDOWN_SVG='<svg fill="#000000" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px"><title>Markdown icon</title><path d="M22.269 19.385H1.731a1.73 1.73 0 0 1-1.73-1.73V6.345a1.73 1.73 0 0 1 1.73-1.73h20.538a1.73 1.73 0 0 1 1.73 1.73v11.308a1.73 1.73 0 0 1-1.73 1.731zm-16.5-3.462v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.078h-2.308l-2.307 2.885-2.308-2.885H3.461v7.847zM21.231 12h-2.308V8.077h-2.307V12h-2.308l3.461 4.039z"></path></svg>',EDITOR_DIALOG_INNER=`
     <div id="markdown-editor-dialog-inner">
         <wc-monaco-editor language="markdown"></wc-monaco-editor>
 
     </div>
 `;
-// https://www.svgrepo.com/svg/306375/markdown
 // https://stackoverflow.com/a/61511955
 function waitForElm(i){return new Promise(e=>{if(document.querySelector(i))return e(document.querySelector(i));let t=new MutationObserver(o=>{document.querySelector(i)&&(t.disconnect(),e(document.querySelector(i)))});
 // If you get "parameter 1 is not of type 'Node'" error, see https://stackoverflow.com/a/77855838/492336
