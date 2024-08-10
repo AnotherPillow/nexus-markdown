@@ -20,4 +20,4 @@ A userscript to allow for usage of markdown in Nexus Mods descriptions
 ## Installation
 
 1. Install [Violentmonkey](https://violentmonkey.github.io/get-it/)
-2. [Click here](https://raw.githubusercontent.com/AnotherPillow/nexus-markdown/master/build/nmd.min.user.js)
+2. [Click here](https://raw.githubusercontent.com/AnotherPillow/nexus-markdown/master/userscript/build/nmd.min.user.js)

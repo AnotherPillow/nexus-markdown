@@ -7,7 +7,7 @@
 // @grant       none
 // @version     1.0
 // @author      AnotherPillow
-// @license     GNU GPLv3
+// @license     MPL-2.0
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
 // @require     https://raw.githubusercontent.com/thdoan/strftime/master/strftime.js
 // @require     https://unpkg.com/showdown/dist/showdown.min.js
