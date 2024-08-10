@@ -1,0 +1,30 @@
+{
+    "name": "nexus-markdown",
+    "version": "1.0.0",
+    "description": "A userscript to allow for usage of markdown in Nexus Mods descriptions",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "ugly": "uglifyjs build/nmd.user.js --comments all -c -m --mangle-props reserved=[] > build/nmd.min.user.js",
+      "$builddir": "mkdir build || true",
+      "$build": "npm run --silent builddir && tsc && babel _build -d lib && npm run ugly",
+      "js-patches": "node patches.js",
+      "build": "tsc && npm run ugly",
+      "dev": "npm run build && npx serve -p 17895 build/",
+      "watch": "tsc --watch"
+    },
+    "author": "anotherpillow",
+    "license": "MPL-2.0",
+    "devDependencies": {
+      "@babel/cli": "^7.22.15",
+      "@babel/core": "^7.22.20",
+      "@types/jquery": "^3.5.20",
+      "typescript": "^5.2.2",
+      "uglify-js": "^3.17.4",
+      "uglifyjs-folder": "^3.3.0"
+    },
+    "dependencies": {
+      "@violentmonkey/types": "^0.1.6",
+      "walk": "^2.3.15"
+    }
+}
