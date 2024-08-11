@@ -1,6 +1,6 @@
 
 
-window.location.pathname.endsWith("/mods/edit/") ? (function () {
+(window.location.pathname.endsWith("/mods/edit/") || window.location.pathname == '/mods/add') ? (function () {
     const wcmonaco = document.createElement('script')
     wcmonaco.type = 'module'
     wcmonaco.src = 'https://cdn.jsdelivr.net/gh/vanillawc/wc-monaco-editor@1/index.js'

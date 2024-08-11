@@ -5,7 +5,7 @@
 // @description A userscript to allow for usage of markdown in Nexus Mods descriptions!
 // @match       https://www.nexusmods.com/*
 // @grant       none
-// @version     1.0
+// @version     1.0.1
 // @author      AnotherPillow
 // @license     MPL-2.0
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
@@ -66,7 +66,7 @@ function waitForElm(selector) {
 const sleep = (ms = 1000) => {
     return new Promise(resolve => setTimeout(resolve, ms));
 };
-window.location.pathname.endsWith("/mods/edit/") ? (function () {
+(window.location.pathname.endsWith("/mods/edit/") || window.location.pathname == '/mods/add') ? (function () {
     const wcmonaco = document.createElement('script');
     wcmonaco.type = 'module';
     wcmonaco.src = 'https://cdn.jsdelivr.net/gh/vanillawc/wc-monaco-editor@1/index.js';
