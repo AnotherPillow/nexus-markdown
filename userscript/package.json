@@ -1,6 +1,6 @@
 {
     "name": "nexus-markdown",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A userscript to allow for usage of markdown in Nexus Mods descriptions",
     "main": "build/nmd.user.js",
     "scripts": {
