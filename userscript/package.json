@@ -2,7 +2,7 @@
     "name": "nexus-markdown",
     "version": "1.0.0",
     "description": "A userscript to allow for usage of markdown in Nexus Mods descriptions",
-    "main": "index.js",
+    "main": "build/nmd.user.js",
     "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
       "ugly": "uglifyjs build/nmd.user.js --comments all -c -m --mangle-props reserved=[] > build/nmd.min.user.js",
