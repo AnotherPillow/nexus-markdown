@@ -66,7 +66,7 @@ function waitForElm(selector) {
 const sleep = (ms = 1000) => {
     return new Promise(resolve => setTimeout(resolve, ms));
 };
-(window.location.pathname.endsWith("/mods/edit/") || window.location.pathname == '/mods/add') ? (function () {
+(window.location.pathname.endsWith("/mods/edit/") || window.location.pathname.endsWith('/mods/add')) ? (function () {
     const wcmonaco = document.createElement('script');
     wcmonaco.type = 'module';
     wcmonaco.src = 'https://cdn.jsdelivr.net/gh/vanillawc/wc-monaco-editor@1/index.js';
