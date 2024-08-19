@@ -21,6 +21,13 @@
             const converter = new window.showdown.Converter()
             
             const bbAsHTML = ($(".wys-panel") as any).htmlcode()
+                // fix headers
+                .replace(/<h1>(.*?)<\/h1>/g, `<font size="6">$1</font>`)
+                .replace(/<h2>(.*?)<\/h2>/g, `<font size="5">$1</font>`)
+                .replace(/<h3>(.*?)<\/h3>/g, `<font size="4">$1</font>`)
+                .replace(/<h4>(.*?)<\/h4>/g, `<font size="3">$1</font>`)
+                .replace(/<h5>(.*?)<\/h5>/g, `<font size="2">$1</font>`)
+                .replace(/<h6>(.*?)<\/h6>/g, `<font size="1">$1</font>`)
             const initial_markdown = converter.makeMarkdown(bbAsHTML)
 
             const dialog = document.createElement('dialog')

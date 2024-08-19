@@ -5,7 +5,7 @@
 // @description A userscript to allow for usage of markdown in Nexus Mods descriptions!
 // @match       https://www.nexusmods.com/*
 // @grant       none
-// @version     1.0.1
+// @version     1.1.0
 // @author      AnotherPillow
 // @license     MPL-2.0
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
@@ -82,7 +82,14 @@ const sleep = (ms = 1000) => {
         newItem2.addEventListener('click', async () => {
             //@ts-ignore
             const converter = new window.showdown.Converter();
-            const bbAsHTML = $(".wys-panel").htmlcode();
+            const bbAsHTML = $(".wys-panel").htmlcode()
+                // fix headers
+                .replace(/<h1>(.*?)<\/h1>/g, `<font size="6">$1</font>`)
+                .replace(/<h2>(.*?)<\/h2>/g, `<font size="5">$1</font>`)
+                .replace(/<h3>(.*?)<\/h3>/g, `<font size="4">$1</font>`)
+                .replace(/<h4>(.*?)<\/h4>/g, `<font size="3">$1</font>`)
+                .replace(/<h5>(.*?)<\/h5>/g, `<font size="2">$1</font>`)
+                .replace(/<h6>(.*?)<\/h6>/g, `<font size="1">$1</font>`);
             const initial_markdown = converter.makeMarkdown(bbAsHTML);
             const dialog = document.createElement('dialog');
             dialog.innerHTML = EDITOR_DIALOG_INNER;

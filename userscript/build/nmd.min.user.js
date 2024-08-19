@@ -4,7 +4,7 @@
 // @description A userscript to allow for usage of markdown in Nexus Mods descriptions!
 // @match       https://www.nexusmods.com/*
 // @grant       none
-// @version     1.0.1
+// @version     1.1.0
 // @author      AnotherPillow
 // @license     MPL-2.0
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
@@ -20,9 +20,9 @@ let MARKDOWN_SVG='<svg fill="#000000" viewBox="0 0 24 24" role="img" xmlns="http
     </div>
 `;
 // https://stackoverflow.com/a/61511955
-function waitForElm(t){return new Promise(e=>{if(document.querySelector(t))return e(document.querySelector(t));let i=new MutationObserver(o=>{document.querySelector(t)&&(i.disconnect(),e(document.querySelector(t)))});
+function waitForElm(n){return new Promise(e=>{if(document.querySelector(n))return e(document.querySelector(n));let t=new MutationObserver(o=>{document.querySelector(n)&&(t.disconnect(),e(document.querySelector(n)))});
 // If you get "parameter 1 is not of type 'Node'" error, see https://stackoverflow.com/a/77855838/492336
-i.observe(document.body,{childList:!0,subtree:!0})})}GM_addStyle(`
+t.observe(document.body,{childList:!0,subtree:!0})})}GM_addStyle(`
     #markdown-editor-dialog {
         width: 100vw;
         position: absolute;
@@ -43,7 +43,7 @@ i.observe(document.body,{childList:!0,subtree:!0})})}GM_addStyle(`
         border: 5px solid black;
         border-radius: 5px;
     }
-`);let sleep=(e=1e3)=>new Promise(o=>setTimeout(o,e));(window.location.pathname.endsWith("/mods/edit/")||window.location.pathname.endsWith("/mods/add"))&&function(){var o=document.createElement("script");o.type="module",o.src="https://cdn.jsdelivr.net/gh/vanillawc/wc-monaco-editor@1/index.js",document.head.appendChild(o),waitForElm(".wysibb").then(o=>{var o=o.querySelector(".wysibb-toolbar"),e=document.createElement("div"),i=(e.classList.add("wysibb-toolbar-btn"),e.innerHTML=MARKDOWN_SVG,document.createElement("div"));i.classList.add("wysibb-toolbar-container"),i.appendChild(e),e.addEventListener("click",async()=>{
+`);let sleep=(e=1e3)=>new Promise(o=>setTimeout(o,e));(window.location.pathname.endsWith("/mods/edit/")||window.location.pathname.endsWith("/mods/add"))&&function(){var o=document.createElement("script");o.type="module",o.src="https://cdn.jsdelivr.net/gh/vanillawc/wc-monaco-editor@1/index.js",document.head.appendChild(o),waitForElm(".wysibb").then(o=>{var o=o.querySelector(".wysibb-toolbar"),e=document.createElement("div"),t=(e.classList.add("wysibb-toolbar-btn"),e.innerHTML=MARKDOWN_SVG,document.createElement("div"));t.classList.add("wysibb-toolbar-container"),t.appendChild(e),e.addEventListener("click",async()=>{
 //@ts-ignore
-let e=new window.showdown.Converter;var o=$(".wys-panel").htmlcode(),o=e.makeMarkdown(o);let i=document.createElement("dialog"),t=(i.innerHTML=EDITOR_DIALOG_INNER,i.id="markdown-editor-dialog",document.body.appendChild(i),i.querySelector("wc-monaco-editor"));console.log(t,t.editor),t.editor.setValue(o),t.editor.getModel().onDidChangeContent(()=>{var o=t.editor.getValue(),o=e.makeHtml(o);// but we want the full content
-$(".wys-panel").htmlcode(o)}),i.addEventListener("click",o=>{o.target?.id==i.id&&document.body.removeChild(i)}),i.showModal()}),o.appendChild(i)})}();
+let e=new window.showdown.Converter;var o=$(".wys-panel").htmlcode().replace(/<h1>(.*?)<\/h1>/g,'<font size="6">$1</font>').replace(/<h2>(.*?)<\/h2>/g,'<font size="5">$1</font>').replace(/<h3>(.*?)<\/h3>/g,'<font size="4">$1</font>').replace(/<h4>(.*?)<\/h4>/g,'<font size="3">$1</font>').replace(/<h5>(.*?)<\/h5>/g,'<font size="2">$1</font>').replace(/<h6>(.*?)<\/h6>/g,'<font size="1">$1</font>'),o=e.makeMarkdown(o);let t=document.createElement("dialog"),n=(t.innerHTML=EDITOR_DIALOG_INNER,t.id="markdown-editor-dialog",document.body.appendChild(t),t.querySelector("wc-monaco-editor"));console.log(n,n.editor),n.editor.setValue(o),n.editor.getModel().onDidChangeContent(()=>{var o=n.editor.getValue(),o=e.makeHtml(o);// but we want the full content
+$(".wys-panel").htmlcode(o)}),t.addEventListener("click",o=>{o.target?.id==t.id&&document.body.removeChild(t)}),t.showModal()}),o.appendChild(t)})}();
