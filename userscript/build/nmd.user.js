@@ -84,12 +84,12 @@ const sleep = (ms = 1000) => {
             const converter = new window.showdown.Converter();
             const bbAsHTML = $(".wys-panel").htmlcode()
                 // fix headers
-                .replace(/<h1>(.*?)<\/h1>/g, `<font size="6">$1</font>`)
-                .replace(/<h2>(.*?)<\/h2>/g, `<font size="5">$1</font>`)
-                .replace(/<h3>(.*?)<\/h3>/g, `<font size="4">$1</font>`)
-                .replace(/<h4>(.*?)<\/h4>/g, `<font size="3">$1</font>`)
-                .replace(/<h5>(.*?)<\/h5>/g, `<font size="2">$1</font>`)
-                .replace(/<h6>(.*?)<\/h6>/g, `<font size="1">$1</font>`);
+                .replace(/<h1 ?(?:['"][a-z\-0-9_]+['"]=?(?:['"][^"]+['"])?)?>(.*?)<\/h1>/g, `<font size="6">$1</font>`)
+                .replace(/<h2 ?(?:['"][a-z\-0-9_]+['"]=?(?:['"][^"]+['"])?)?>(.*?)<\/h2>/g, `<font size="5">$1</font>`)
+                .replace(/<h3 ?(?:['"][a-z\-0-9_]+['"]=?(?:['"][^"]+['"])?)?>(.*?)<\/h3>/g, `<font size="4">$1</font>`)
+                .replace(/<h4 ?(?:['"][a-z\-0-9_]+['"]=?(?:['"][^"]+['"])?)?>(.*?)<\/h4>/g, `<font size="3">$1</font>`)
+                .replace(/<h5 ?(?:['"][a-z\-0-9_]+['"]=?(?:['"][^"]+['"])?)?>(.*?)<\/h5>/g, `<font size="2">$1</font>`)
+                .replace(/<h6 ?(?:['"][a-z\-0-9_]+['"]=?(?:['"][^"]+['"])?)?>(.*?)<\/h6>/g, `<font size="1">$1</font>`);
             const initial_markdown = converter.makeMarkdown(bbAsHTML);
             const dialog = document.createElement('dialog');
             dialog.innerHTML = EDITOR_DIALOG_INNER;
