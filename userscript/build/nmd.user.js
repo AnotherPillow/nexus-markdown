@@ -5,7 +5,7 @@
 // @description A userscript to allow for usage of markdown in Nexus Mods descriptions!
 // @match       https://www.nexusmods.com/*
 // @grant       none
-// @version     1.1.0
+// @version     1.2.0
 // @author      AnotherPillow
 // @license     MPL-2.0
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
@@ -100,7 +100,8 @@ const sleep = (ms = 1000) => {
                     .replace(/<h3 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h3>/g, `<font size="4">$1</font>`)
                     .replace(/<h4 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h4>/g, `<font size="3">$1</font>`)
                     .replace(/<h5 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h5>/g, `<font size="2">$1</font>`)
-                    .replace(/<h6 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h6>/g, `<font size="1">$1</font>`);
+                    .replace(/<h6 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h6>/g, `<font size="1">$1</font>`)
+                    .replace(/\n/g, '\n<br>\n');
                 $(".wys-panel").htmlcode(html);
             });
             dialog.addEventListener('click', (event) => {

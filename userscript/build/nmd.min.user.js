@@ -4,7 +4,7 @@
 // @description A userscript to allow for usage of markdown in Nexus Mods descriptions!
 // @match       https://www.nexusmods.com/*
 // @grant       none
-// @version     1.1.0
+// @version     1.2.0
 // @author      AnotherPillow
 // @license     MPL-2.0
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
@@ -20,9 +20,9 @@ let MARKDOWN_SVG='<svg fill="#000000" viewBox="0 0 24 24" role="img" xmlns="http
     </div>
 `;
 // https://stackoverflow.com/a/61511955
-function waitForElm(n){return new Promise(e=>{if(document.querySelector(n))return e(document.querySelector(n));let t=new MutationObserver(o=>{document.querySelector(n)&&(t.disconnect(),e(document.querySelector(n)))});
+function waitForElm(t){return new Promise(n=>{if(document.querySelector(t))return n(document.querySelector(t));let e=new MutationObserver(o=>{document.querySelector(t)&&(e.disconnect(),n(document.querySelector(t)))});
 // If you get "parameter 1 is not of type 'Node'" error, see https://stackoverflow.com/a/77855838/492336
-t.observe(document.body,{childList:!0,subtree:!0})})}GM_addStyle(`
+e.observe(document.body,{childList:!0,subtree:!0})})}GM_addStyle(`
     #markdown-editor-dialog {
         width: 100vw;
         position: absolute;
@@ -43,7 +43,7 @@ t.observe(document.body,{childList:!0,subtree:!0})})}GM_addStyle(`
         border: 5px solid black;
         border-radius: 5px;
     }
-`);let sleep=(e=1e3)=>new Promise(o=>setTimeout(o,e));(window.location.pathname.endsWith("/mods/edit/")||window.location.pathname.endsWith("/mods/add"))&&function(){var o=document.createElement("script");o.type="module",o.src="https://cdn.jsdelivr.net/gh/vanillawc/wc-monaco-editor@1/index.js",document.head.appendChild(o),waitForElm(".wysibb").then(o=>{var o=o.querySelector(".wysibb-toolbar"),e=document.createElement("div"),t=(e.classList.add("wysibb-toolbar-btn"),e.innerHTML=MARKDOWN_SVG,document.createElement("div"));t.classList.add("wysibb-toolbar-container"),t.appendChild(e),e.addEventListener("click",async()=>{
+`);let sleep=(n=1e3)=>new Promise(o=>setTimeout(o,n));(window.location.pathname.endsWith("/mods/edit/")||window.location.pathname.endsWith("/mods/add"))&&function(){var o=document.createElement("script");o.type="module",o.src="https://cdn.jsdelivr.net/gh/vanillawc/wc-monaco-editor@1/index.js",document.head.appendChild(o),waitForElm(".wysibb").then(o=>{var o=o.querySelector(".wysibb-toolbar"),n=document.createElement("div"),e=(n.classList.add("wysibb-toolbar-btn"),n.innerHTML=MARKDOWN_SVG,document.createElement("div"));e.classList.add("wysibb-toolbar-container"),e.appendChild(n),n.addEventListener("click",async()=>{
 //@ts-ignore
-let e=new window.showdown.Converter;var o=$(".wys-panel").htmlcode(),o=e.makeMarkdown(o);let t=document.createElement("dialog"),n=(t.innerHTML=EDITOR_DIALOG_INNER,t.id="markdown-editor-dialog",document.body.appendChild(t),t.querySelector("wc-monaco-editor"));console.log(n,n.editor),n.editor.setValue(o),n.editor.getModel().onDidChangeContent(()=>{var o=n.editor.getValue(),o=e.makeHtml(o).replace(/<h1 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h1>/g,'<font size="6">$1</font>').replace(/<h2 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h2>/g,'<font size="5">$1</font>').replace(/<h3 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h3>/g,'<font size="4">$1</font>').replace(/<h4 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h4>/g,'<font size="3">$1</font>').replace(/<h5 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h5>/g,'<font size="2">$1</font>').replace(/<h6 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h6>/g,'<font size="1">$1</font>');// but we want the full content
-$(".wys-panel").htmlcode(o)}),t.addEventListener("click",o=>{o.target?.id==t.id&&document.body.removeChild(t)}),t.showModal()}),o.appendChild(t)})}();
+let n=new window.showdown.Converter;var o=$(".wys-panel").htmlcode(),o=n.makeMarkdown(o);let e=document.createElement("dialog"),t=(e.innerHTML=EDITOR_DIALOG_INNER,e.id="markdown-editor-dialog",document.body.appendChild(e),e.querySelector("wc-monaco-editor"));console.log(t,t.editor),t.editor.setValue(o),t.editor.getModel().onDidChangeContent(()=>{var o=t.editor.getValue(),o=n.makeHtml(o).replace(/<h1 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h1>/g,'<font size="6">$1</font>').replace(/<h2 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h2>/g,'<font size="5">$1</font>').replace(/<h3 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h3>/g,'<font size="4">$1</font>').replace(/<h4 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h4>/g,'<font size="3">$1</font>').replace(/<h5 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h5>/g,'<font size="2">$1</font>').replace(/<h6 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h6>/g,'<font size="1">$1</font>').replace(/\n/g,"\n<br>\n");// but we want the full content
+$(".wys-panel").htmlcode(o)}),e.addEventListener("click",o=>{o.target?.id==e.id&&document.body.removeChild(e)}),e.showModal()}),o.appendChild(e)})}();
