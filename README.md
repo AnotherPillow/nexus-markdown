@@ -23,4 +23,4 @@ A userscript to allow for usage of markdown in Nexus Mods descriptions
 
 ## Warning
 
-Tiny bit buggy. May not work after saving.
+If you are using a code block or quotes, press the BBCode button *before* going back to the WYSIWYG/Preview mode.

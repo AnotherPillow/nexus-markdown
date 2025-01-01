@@ -8,30 +8,72 @@
     
     waitForElm('.wysibb').then((editor: HTMLElement) => {
         const toolbar = editor.querySelector('.wysibb-toolbar')!
+        const bbCodeButton = toolbar.querySelector('.wysibb-toolbar-container.modeSwitch>.wysibb-toolbar-btn.mswitch:not(#markdown-button-container)')
+        const textHolder = editor.querySelector('.wysibb-text')!
+        
+        const mdEditor = document.createElement('div')
+        mdEditor.id="nmd-markdown-editor-container"
+        mdEditor.setAttribute('style', document.querySelector('.wysibb-text-editor')?.getAttribute('style') ?? '')
+        mdEditor.style.display = 'none'
+        mdEditor.style.height = mdEditor.style.maxHeight
+        mdEditor.innerHTML = EDITOR_DIALOG_INNER
+        textHolder.appendChild(mdEditor)
 
-        const newItem2 = document.createElement('div')
-        newItem2.classList.add('wysibb-toolbar-btn')
-        newItem2.innerHTML = MARKDOWN_SVG
-        const newItem1 = document.createElement('div')
-        newItem1.classList.add('wysibb-toolbar-container')
-        newItem1.appendChild(newItem2)
+        const domMdEditor = document.querySelector('#nmd-markdown-editor-container') as HTMLDivElement
 
-        newItem2.addEventListener('click' , async () => {
+        const mdButton = document.createElement('div')
+        mdButton.id = 'markdown-button'
+        mdButton.classList.add('wysibb-toolbar-btn', 'mswitch')
+        mdButton.innerHTML = MARKDOWN_SVG
+
+        const mdButtonContainer = document.createElement('div')
+        mdButtonContainer.id = 'markdown-button-container'
+        mdButtonContainer.classList.add('wysibb-toolbar-container', 'modeSwitch')
+        mdButtonContainer.appendChild(mdButton)
+        mdButtonContainer.style.right = ((bbCodeButton?.getBoundingClientRect().width ?? 75) - 3).toString() + 'px' // these things are most horrific
+
+        bbCodeButton?.addEventListener('click', () => {
+            domMdEditor.style.display = 'none'
+        })
+
+        mdButton.addEventListener('click' , async () => {
+            // Hide all of the various formats (using jQuery, it's convenient)
+            const isMdHiddenAtStart = domMdEditor.style.display != 'block'
+            // console.log(`markdown button clicked, editor is currently ${isMdHiddenAtStart ? 'hidden' : 'visible'} (${isMdHiddenAtStart})`)
+            
+            if (isMdHiddenAtStart) {
+                // Array.from(textHolder.children).filter(e => e.id != 'nmd-markdown-editor-container').forEach(child => (child as HTMLElement).style.display = 'hidden')
+                // for some reason iterating through the children doesn't work so have to use jQuery
+                $('.wysibb-text').children().hide()
+
+                domMdEditor.style.display = 'block'
+            } else {
+                // for some reason iterating through the children doesn't work so have to use jQuery
+                $('.wysibb-text').children().hide()
+
+
+                // show the WYSIWYG editor
+                ;(document.querySelector('.wysibb-body') as HTMLDivElement).style.display = 'block'
+            }
+            
             //@ts-ignore
             const converter = new window.showdown.Converter()
             
             const bbAsHTML = ($(".wys-panel") as any).htmlcode()
-            const initial_markdown = converter.makeMarkdown(bbAsHTML)
+            const initial_markdown = (converter.makeMarkdown(bbAsHTML) as string)
+                .replace(/<font size="(\d+)">(.*?)<\/font>/g, (_, size, text) => { // convert the font elements to hashes
+                    return `${'#'.repeat(parseInt(size))} ${text}`;
+                })
+                .replaceAll('\n', '')
+                .replaceAll('<br>', '\n')
 
-            const dialog = document.createElement('dialog')
-            dialog.innerHTML = EDITOR_DIALOG_INNER
-            dialog.id = 'markdown-editor-dialog'
+
+            const monaco = domMdEditor.querySelector('wc-monaco-editor') as any;
+            // console.log(monaco, monaco.editor)
             
-            document.body.appendChild(dialog)
-
-            const monaco = dialog.querySelector('wc-monaco-editor') as any;
-            console.log(monaco, monaco.editor)
-            monaco.editor.setValue(initial_markdown)
+            if (initial_markdown.includes('NMD NOTE:'))
+                monaco.editor.setValue(initial_markdown)
+            else monaco.editor.setValue(initial_markdown + NMD_NOTE)
 
             monaco.editor.getModel().onDidChangeContent(() => { // this provides the change itself
                 const content = monaco.editor.getValue() // but we want the full content
@@ -44,20 +86,14 @@
                     .replace(/<h4 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h4>/g, `<font size="3">$1</font>`)
                     .replace(/<h5 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h5>/g, `<font size="2">$1</font>`)
                     .replace(/<h6 ?(?:[a-z\-0-9_]+=?(?:['"][^"]+['"])?)?>(.*?)<\/h6>/g, `<font size="1">$1</font>`)
-                    .replace(/\n/g, '\n<br>\n')
+                    .replace(/\n/g, '<br>')
 
                 ;($(".wys-panel") as any).htmlcode(html)
             })
-
-            dialog.addEventListener('click', (event: MouseEvent) => {
-                if ((event.target as HTMLElement)?.id == dialog.id)
-                    document.body.removeChild(dialog)
-            })
-            dialog.showModal()
             // dialog.close()
 
         })
 
-        toolbar.appendChild(newItem1)
+        toolbar.appendChild(mdButtonContainer)
     })
 })() : undefined
